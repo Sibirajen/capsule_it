@@ -11,6 +11,7 @@ import java.time.Instant;
 
 @Getter
 @Setter
+@Builder
 @ToString(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,7 +21,7 @@ import java.time.Instant;
 @EntityListeners(AuditingEntityListener.class)
 public class CapsuleMeta {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
