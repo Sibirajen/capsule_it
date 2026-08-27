@@ -1,1 +1,5 @@
-spring.application.name=capsuleIt-backend
+spring:
+  application:
+    name: capsuleIt-backend
+  profiles:
+    active: dev
