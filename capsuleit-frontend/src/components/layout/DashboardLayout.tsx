@@ -1,10 +1,10 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, NavLink } from "react-router-dom";
 
 export function DashboardLayout() {
+
     return (
         <div>
-            <h1>Dashboard Layout</h1>
-            <Outlet />
+            <Outlet />  
         </div>
     );
 }

@@ -7,6 +7,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<DashboardLayout />}>
           <Route index element={<h1>Home Page</h1>} />
+          <Route path="create" element={<h1>Create</h1>} />
           <Route path="capsules" element={<h1>Capsules</h1>} />
         </Route>
       </Routes>
