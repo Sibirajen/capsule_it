@@ -15,11 +15,3 @@
   --color-foreground-value: #111827;
   --color-muted-value: #6b7280;
 }
-
-.dark {
-  --color-primary-value: #818cf8;
-  --color-secondary-value: #a78bfa;
-  --color-background-value: #111827;
-  --color-foreground-value: #f9fafb;
-  --color-muted-value: #9ca3af;
-}
