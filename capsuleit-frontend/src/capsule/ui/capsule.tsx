@@ -3,7 +3,8 @@ import type { CapsuleProps } from "../types";
 export default function Capsule({
     title,
     description,
-    opensAt
+    opensAt,
+    status
 }: CapsuleProps) {
     return (
         <article className="w-full max-w-2xl border border-neutral-300 bg-white p-8 text-neutral-950">
@@ -34,7 +35,7 @@ export default function Capsule({
             {/* Opening date */}
             <div className="mt-16">
                 <p className="mb-2 text-xs uppercase tracking-[0.2em] text-neutral-500">
-                    Opens
+                    {status}
                 </p>
 
                 <p className="text-lg">
