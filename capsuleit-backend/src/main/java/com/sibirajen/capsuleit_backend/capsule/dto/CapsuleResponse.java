@@ -18,6 +18,4 @@ public class CapsuleResponse {
     private String description;
     private Instant opensAt;
     private Status status;
-    protected Instant createdAt;
-    protected Instant updatedAt;
 }

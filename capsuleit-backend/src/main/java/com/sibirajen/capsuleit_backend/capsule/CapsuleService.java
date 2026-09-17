@@ -36,8 +36,6 @@ public class CapsuleService {
                 .description(saved.getDescription())
                 .opensAt(saved.getOpensAt())
                 .status(saved.getStatus())
-                .createdAt(saved.getCreatedAt())
-                .updatedAt(saved.getUpdatedAt())
                 .build();
     }
 
@@ -51,8 +49,6 @@ public class CapsuleService {
                     .description(capsuleMeta.getDescription())
                     .opensAt(capsuleMeta.getOpensAt())
                     .status(capsuleMeta.getStatus())
-                    .createdAt(capsuleMeta.getCreatedAt())
-                    .updatedAt(capsuleMeta.getUpdatedAt())
                     .build());
         }
         return capsuleResponseList;
@@ -68,8 +64,6 @@ public class CapsuleService {
                 .description(CapsuleMeta.getDescription())
                 .opensAt(CapsuleMeta.getOpensAt())
                 .status(CapsuleMeta.getStatus())
-                .createdAt(CapsuleMeta.getCreatedAt())
-                .updatedAt(CapsuleMeta.getUpdatedAt())
                 .build();
     }
 }
