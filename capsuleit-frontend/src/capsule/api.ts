@@ -10,3 +10,12 @@ export async function getAllCapsules(): Promise<CapsuleData[]> {
     }      
     return response.json();
 }
+
+export async function getCapsuleById(id: number): Promise<CapsuleData> {
+    const response = await fetch(`${url}/capsule/${id}`)
+    console.log("response", response);
+    if(!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }      
+    return response.json();
+}
