@@ -3,7 +3,7 @@ import Capsule from "../ui/capsule";
 import type { CapsuleData } from "../types";
 import { useEffect, useState } from "react";
 
-export default function CapsulePages() {
+export default function Capsules() {
     const [capsules, setCapsules] = useState<CapsuleData[]>([]);
 
     useEffect(() => {
