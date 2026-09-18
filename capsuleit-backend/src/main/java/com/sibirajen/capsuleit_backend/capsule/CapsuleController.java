@@ -18,7 +18,7 @@ public class CapsuleController {
         this.capsuleService = capsuleService;
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<CapsuleResponse> createCapsule(@RequestBody CapsuleRequest capsuleRequest) {
         return ResponseEntity.ok(capsuleService.createCapsule(capsuleRequest));
     }
