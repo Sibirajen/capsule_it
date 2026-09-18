@@ -12,3 +12,9 @@ export type CapsuleProps = {
     opensAt: string;
     status: "opened" | "sealed"
 };
+
+export type CreateCapsule = {
+    title: string;
+    description: string;
+    opensAt: string;
+};
