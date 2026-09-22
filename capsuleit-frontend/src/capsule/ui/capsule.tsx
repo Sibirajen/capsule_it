@@ -4,47 +4,56 @@ export default function Capsule({
     title,
     description,
     opensAt,
-    status
+    status,
 }: CapsuleProps) {
+    const formattedDate = new Date(opensAt).toLocaleDateString("en-US", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+    });
+
     return (
-        <article className="w-full max-w-2xl border border-neutral-300 bg-white p-8 text-neutral-950">
+        <article className="group w-full max-w-2xl border border-(--color-foreground-value) bg-(--color-background-value) p-7 text-(--color-foreground-value) transition-shadow duration-200 hover:shadow-[6px_6px_0px_var(--color-foreground-value)]">
             {/* Header */}
-            <div className="mb-12 flex items-center justify-between">
+            <div className="flex items-center justify-between border-b border-(--color-muted-value)/30 pb-5">
                 <span className="text-xs font-medium uppercase tracking-[0.2em]">
                     Capsule
                 </span>
 
-                <span className="text-xs uppercase tracking-wider text-neutral-500">
-                    Private
-                </span>
+                {/* <div className="flex items-center gap-2">
+                    <span className="h-1.5 w-1.5 rounded-full bg-(--color-primary-value)" />
+                    <span className="text-xs uppercase tracking-wider text-(--color-muted-value)">
+                        Private
+                    </span>
+                </div> */}
             </div>
 
             {/* Content */}
-            <div className="space-y-6">
-                <h1 className="text-4xl font-normal tracking-tight">
+            <div className="py-10">
+                <h1 className="text-3xl font-normal tracking-tight">
                     {title}
                 </h1>
 
-                <div className="h-px w-full bg-neutral-200" />
-
-                <p className="max-w-xl text-base leading-7 text-neutral-600">
+                <p className="mt-5 max-w-xl text-sm leading-7 text-(--color-muted-value)">
                     {description}
                 </p>
             </div>
 
-            {/* Opening date */}
-            <div className="mt-16">
-                <p className="mb-2 text-xs uppercase tracking-[0.2em] text-neutral-500">
-                    {status}
-                </p>
+            {/* Footer */}
+            <div className="flex items-end justify-between border-t border-(--color-muted-value)/30 pt-6">
+                <div>
+                    <p className="mb-2 text-[10px] font-medium uppercase tracking-[0.2em] text-(--color-muted-value)">
+                        {status}
+                    </p>
 
-                <p className="text-lg">
-                    {new Date(opensAt).toLocaleDateString("en-US", {
-                        day: "numeric",
-                        month: "long",
-                        year: "numeric",
-                    })}
-                </p>
+                    <p className="text-lg">
+                        {formattedDate}
+                    </p>
+                </div>
+
+                <span className="text-xs text-(--color-muted-value) transition-transform duration-200 group-hover:translate-x-1">
+                    →
+                </span>
             </div>
         </article>
     );

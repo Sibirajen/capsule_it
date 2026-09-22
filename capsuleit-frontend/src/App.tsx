@@ -1,17 +1,16 @@
-import { Route, Routes } from "react-router-dom";
-import { DashboardLayout } from "./components/layout/DashboardLayout";
-import Capsules from "./capsule/components/capsules";
+import { Route, Routes } from "react-router-dom"; 
+import { DashboardLayout } from "./components/layout/DashboardLayout"; 
+import Capsules from "./capsule/components/capsules"; 
+import CreateCapsule from "./capsule/components/CreateCapsule"; 
+import Home from "./components/Home";
 
-export default function App() {
-  return (
-    <div>
-      <Routes>
-        <Route path="/" element={<DashboardLayout />}>
-          <Route index element={<h1>Home Page</h1>} />
-          <Route path="create" element={<h1>Create</h1>} />
-          <Route path="capsules" element={<Capsules />} />
-        </Route>
-      </Routes>
-    </div>
-  );
+export default function App() { 
+    return ( 
+        <Routes> <Route path="/" element={<DashboardLayout />}>
+            <Route index element={<Home />} /> 
+            <Route path="create" element={<CreateCapsule />} /> 
+            <Route path="capsules" element={<Capsules />} /> 
+            </Route> 
+        </Routes> 
+    ); 
 }
