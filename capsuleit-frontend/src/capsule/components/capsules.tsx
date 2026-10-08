@@ -1,30 +1,25 @@
-import { useEffect, useState } from "react";
-import { getAllCapsules, getCapsuleById } from "../api";
+import { useState } from "react";
+import { getCapsuleById } from "../api";
 import Capsule from "../ui/capsule";
 import CapsuleDetails from "../ui/capsuleDetails";
-import type { CapsuleData } from "../types";
+import type { SelectCapsuleState } from "../types";
+import Loading from "../../components/ui/loading";
+import { useCapsules } from "../hooks/useCapsules";
 
 export default function Capsules() {
-    const [capsules, setCapsules] = useState<CapsuleData[]>([]);
-    const [selectedCapsule, setSelectedCapsule] = useState<CapsuleData | null>(null);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-
-    useEffect(() => {
-        getAllCapsules().then(setCapsules);
-    }, []);
+    const { capsulesData, capsulesLoading, capsuleError } = useCapsules();
+    const [capsuleData, setSelectCapsuleState] = useState<SelectCapsuleState>({ capsule: null, isLoading: false, error: null });
+    console.log("capsuleData", capsuleData);
 
     const handleCapsuleClick = async (id: number) => {
-        setLoading(true);
-        setError(null);
-
+        setSelectCapsuleState({ capsule: null, isLoading: true, error: null });
         try {
             const capsule = await getCapsuleById(id);
-            setSelectedCapsule(capsule);
+            console.log("capsuleeee", capsule);
+            setSelectCapsuleState({ capsule: capsule, isLoading: false, error: null });
+            console.log("capsuleDataaaaa", capsuleData);
         } catch {
-            setError("Unable to load this capsule.");
-        } finally {
-            setLoading(false);
+            setSelectCapsuleState({ capsule: null, isLoading: false, error: "Unable to load this capsule." });
         }
     };
 
@@ -45,36 +40,44 @@ export default function Capsules() {
                             </p>
                         </header>
 
-                        <div className="space-y-4">
-                            {capsules.map((capsule) => (
-                                <div
-                                    key={capsule.id}
-                                    onClick={() =>
-                                        handleCapsuleClick(capsule.id)
-                                    }
-                                    className={`cursor-pointer rounded-lg border p-4 transition-colors ${
-                                        selectedCapsule?.id === capsule.id
-                                            ? "border-(--color-primary-value) bg-(--color-primary-value)/5"
-                                            : "border-(--color-foreground-value)/10 hover:border-(--color-primary-value)/40"
-                                    }`}
-                                >
-                                    <Capsule {...capsule} />
-                                </div>
-                            ))}
-                        </div>
+                        {capsulesLoading ? (
+                            <Loading value="fetching capsules"/>
+                        ) : capsuleError ? (
+                            <p className="text-sm text-(--color-muted-value)">
+                                {capsuleError}
+                            </p>
+                        ) : (
+                            <div className="space-y-4">
+                                {capsulesData.map((capsule) => (
+                                    <div
+                                        key={capsule.id}
+                                        onClick={() =>
+                                            handleCapsuleClick(capsule.id)
+                                        }
+                                        className={`cursor-pointer rounded-lg border p-4 transition-colors ${
+                                            capsuleData.capsule?.id === capsule.id
+                                                ? "border-(--color-primary-value) bg-(--color-primary-value)/5"
+                                                : "border-(--color-foreground-value)/10 hover:border-(--color-primary-value)/40"
+                                        }`}
+                                    >
+                                        <Capsule {...capsule} />
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 </section>
 
                 {/* Right side */}
                 <section className="w-1/2 px-12 py-12">
-                    {loading ? (
-                        <p>Loading capsule...</p>
-                    ) : error ? (
+                    {capsuleData.isLoading ? (
+                        <Loading value="fetching capsule"/>
+                    ) : capsuleData.error ? (
                         <p className="text-sm text-(--color-muted-value)">
-                            {error}
+                            {capsuleData.error}
                         </p>
-                    ) : selectedCapsule ? (
-                        <CapsuleDetails {...selectedCapsule} />
+                    ) : capsuleData.capsule ? (
+                        <CapsuleDetails {...capsuleData.capsule} />
                     ) : (
                         <p className="text-sm text-(--color-muted-value)">
                             Select a capsule to view it.
