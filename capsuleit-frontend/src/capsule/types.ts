@@ -18,3 +18,9 @@ export type CreateCapsule = {
     description: string;
     opensAt: string;
 };
+
+export type SelectCapsuleState = {
+    capsule: CapsuleData | null;
+    isLoading: boolean;
+    error: string | null;
+};
