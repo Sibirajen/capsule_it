@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { SubmitEventHandler } from "react";
 import { createCapsule } from "../api";
+import Loading from "../../components/ui/loading";
 
 export default function CreateCapsule() {
     const [title, setTitle] = useState("");
@@ -128,7 +129,7 @@ export default function CreateCapsule() {
                         disabled={loading}
                         className="w-full rounded-lg bg-(--color-primary-value) px-4 py-3 text-sm font-medium text-(--color-background-value) transition hover:bg-(--color-secondary-value) disabled:cursor-not-allowed disabled:opacity-50"
                     >
-                        {loading ? "Creating..." : "Create Capsule"}
+                        {loading ? <Loading value="creating capsule" /> : "Create Capsule"}
                     </button>
                 </form>
             </div>
