@@ -2,8 +2,8 @@ import type { CapsuleData, CreateCapsule } from "./types";
 
 const url: string = "http://localhost:8080";
 
-export async function getAllCapsules(): Promise<CapsuleData[]> {
-    const response = await fetch(`${url}/capsule/all`)
+export async function getAllCapsules(signal: AbortSignal): Promise<CapsuleData[]> {
+    const response = await fetch(`${url}/capsule/all`, { signal });
     console.log("response", response);
     if(!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
