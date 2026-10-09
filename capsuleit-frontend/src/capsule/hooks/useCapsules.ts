@@ -19,7 +19,7 @@ export function useCapsules() {
                 setCapsulesData (data);
             } catch (error) {
                 if (error instanceof DOMException && error.name === "AbortError") {
-                    controller.abort();
+                    // controller.abort();
                     return;
                 }
                 setCapsuleError("Failed to fetch capsules.");
