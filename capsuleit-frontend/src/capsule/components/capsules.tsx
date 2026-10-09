@@ -28,7 +28,7 @@ export default function Capsules() {
             <div className="flex min-h-screen w-full">
 
                 {/* Left side */}
-                <section className="w-1/2 border-r border-(--color-foreground-value)/10 px-8 py-12">
+                <section className="h-screen w-1/2 overflow-y-auto border-r border-(--color-foreground-value)/10 px-8 py-12">
                     <div className="mx-auto max-w-xl">
                         <header className="mb-10">
                             <h1 className="text-xl font-semibold">
