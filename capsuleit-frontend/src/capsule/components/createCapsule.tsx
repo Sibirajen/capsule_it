@@ -1,7 +1,8 @@
 import { useState } from "react";
 import type { SubmitEventHandler } from "react";
 import { createCapsule } from "../api";
-import Loading from "../../components/ui/loading";
+import CapsuleFormFields from "./capsuleFormFields";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateCapsule() {
     const [title, setTitle] = useState("");
@@ -10,8 +11,27 @@ export default function CreateCapsule() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
+    const today = new Date();
+    const minDate = new Date(today);
+    const maxDate = new Date(today);
+    const navigate = useNavigate();
+
+    minDate.setDate(today.getDate() + 1);
+    maxDate.setFullYear(today.getFullYear() + 100);
+
+    const formatDate = (date: Date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+
+        return `${year}-${month}-${day}`;
+    };
+
     const handleSubmit: SubmitEventHandler<HTMLFormElement> = async (e) => {
         e.preventDefault();
+
+        if (loading) return;
+
         setError("");
 
         if (!title.trim()) {
@@ -30,12 +50,14 @@ export default function CreateCapsule() {
             await createCapsule({
                 title: title.trim(),
                 description: description.trim(),
-                opensAt: `${opensAt}T00:00:00Z`
+                opensAt: `${opensAt}T00:00:00Z`,
             });
 
             setTitle("");
             setDescription("");
             setOpensAt("");
+
+            navigate("/capsules");
         } catch (err) {
             setError(
                 err instanceof Error
@@ -48,7 +70,10 @@ export default function CreateCapsule() {
     };
 
     return (
-        <div className="min-h-screen bg-(--color-background-value) px-6 py-12 text-(--color-foreground-value)">
+        <div
+            className="min-h-screen bg-(--color-background-value) px-6 py-12 text-(--color-foreground-value)"
+            aria-busy={loading}
+        >
             <div className="mx-auto w-full max-w-xl">
                 <div className="mb-8">
                     <h1 className="text-2xl font-semibold">
@@ -60,79 +85,68 @@ export default function CreateCapsule() {
                     </p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
-                    <div>
-                        <label
-                            htmlFor="title"
-                            className="mb-2 block text-sm font-medium"
-                        >
-                            Title
-                        </label>
-
-                        <input
-                            id="title"
-                            type="text"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            placeholder="My future self"
-                            className="w-full rounded-lg border border-(--color-muted-value)/30 bg-(--color-background-value) px-4 py-3 text-sm text-(--color-foreground-value) outline-none transition placeholder:text-(--color-muted-value) focus:border-(--color-primary-value) focus:ring-2 focus:ring-(--color-primary-value)/20"
-                        />
-                    </div>
-
-                    <div>
-                        <label
-                            htmlFor="description"
-                            className="mb-2 block text-sm font-medium"
-                        >
-                            Description
-                        </label>
-
-                        <textarea
-                            id="description"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            placeholder="Write something you want to remember..."
-                            rows={6}
-                            className="w-full resize-none rounded-lg border border-(--color-muted-value)/30 bg-(--color-background-value) px-4 py-3 text-sm text-(--color-foreground-value) outline-none transition placeholder:text-(--color-muted-value) focus:border-(--color-primary-value) focus:ring-2 focus:ring-(--color-primary-value)/20"
-                        />
-                    </div>
-
-                    <div>
-                        <label
-                            htmlFor="opensAt"
-                            className="mb-2 block text-sm font-medium"
-                        >
-                            Open on
-                        </label>
-
-                        <input
-                            id="opensAt"
-                            type="date"
-                            value={opensAt}
-                            onChange={(e) => setOpensAt(e.target.value)}
-                            className="w-full rounded-lg border border-(--color-muted-value)/30 bg-(--color-background-value) px-4 py-3 text-sm text-(--color-foreground-value) outline-none transition focus:border-(--color-primary-value) focus:ring-2 focus:ring-(--color-primary-value)/20"
-                        />
-
-                        <p className="mt-2 text-xs text-(--color-muted-value)">
-                            Your capsule will remain locked until this date.
-                        </p>
-                    </div>
-
-                    {error && (
-                        <p className="text-sm text-(--color-secondary-value)">
-                            {error}
-                        </p>
-                    )}
-
-                    <button
-                        type="submit"
+                <form onSubmit={handleSubmit}>
+                    <fieldset
                         disabled={loading}
-                        className="w-full rounded-lg bg-(--color-primary-value) px-4 py-3 text-sm font-medium text-(--color-background-value) transition hover:bg-(--color-secondary-value) disabled:cursor-not-allowed disabled:opacity-50"
+                        className="m-0 min-w-0 space-y-6 border-0 p-0"
                     >
-                        {loading ? <Loading value="creating capsule" /> : "Create Capsule"}
-                    </button>
+                        <CapsuleFormFields
+                            title={title}
+                            setTitle={setTitle}
+                            description={description}
+                            setDescription={setDescription}
+                            opensAt={opensAt}
+                            setOpensAt={setOpensAt}
+                            minDate={formatDate(minDate)}
+                            maxDate={formatDate(maxDate)}
+                        />
+
+                        {error && (
+                            <p className="text-sm text-(--color-secondary-value)">
+                                {error}
+                            </p>
+                        )}
+
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className="w-full rounded-lg bg-(--color-primary-value) px-4 py-3 text-sm font-medium text-(--color-background-value) transition hover:bg-(--color-secondary-value) disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                            Create Capsule
+                        </button>
+                    </fieldset>
                 </form>
             </div>
+
+            {/* Full-page loading overlay */}
+            {loading && (
+                <div
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-(--color-background-value)/85 backdrop-blur-sm"
+                    role="status"
+                    aria-live="polite"
+                    aria-label="Creating your capsule"
+                >
+                    <div className="flex flex-col items-center gap-5">
+                        <div className="relative flex h-16 w-16 items-center justify-center">
+                            <div className="absolute inset-0 rounded-full border-4 border-(--color-muted-value)/20" />
+
+                            <div className="absolute inset-0 animate-spin rounded-full border-4 border-transparent border-t-(--color-primary-value) border-r-(--color-secondary-value)" />
+
+                            <div className="h-3 w-3 rounded-full bg-(--color-primary-value)" />
+                        </div>
+
+                        <div className="text-center">
+                            <p className="text-base font-semibold text-(--color-foreground-value)">
+                                Creating your capsule
+                            </p>
+
+                            <p className="mt-2 text-sm text-(--color-muted-value)">
+                                Sealing your memories for the future...
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

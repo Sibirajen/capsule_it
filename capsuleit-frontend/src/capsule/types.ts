@@ -24,3 +24,14 @@ export type SelectCapsuleState = {
     isLoading: boolean;
     error: string | null;
 };
+
+export type CapsuleFormFieldsProps = {
+    title: string;
+    setTitle: (value: string) => void;
+    description: string;
+    setDescription: (value: string) => void;
+    opensAt: string;
+    setOpensAt: (value: string) => void;
+    minDate: string;
+    maxDate: string;
+};
