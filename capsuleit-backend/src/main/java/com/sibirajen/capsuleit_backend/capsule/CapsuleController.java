@@ -2,6 +2,7 @@ package com.sibirajen.capsuleit_backend.capsule;
 
 import com.sibirajen.capsuleit_backend.capsule.dto.CapsuleRequest;
 import com.sibirajen.capsuleit_backend.capsule.dto.CapsuleResponse;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class CapsuleController {
     }
 
     @PostMapping("")
-    public ResponseEntity<CapsuleResponse> createCapsule(@RequestBody CapsuleRequest capsuleRequest) {
+    public ResponseEntity<CapsuleResponse> createCapsule(@RequestBody @Valid CapsuleRequest capsuleRequest) {
         return ResponseEntity.ok(capsuleService.createCapsule(capsuleRequest));
     }
 
